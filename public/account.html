@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Set your password · ManuFuture workspace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"><link rel="stylesheet" href="/brand/sd.css">
+<style>
+main{max-width:440px;margin:48px auto;padding:0 16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+h1{font-family:var(--display);font-weight:800;color:var(--brand);font-size:26px;margin:0 0 8px}
+p{color:var(--muted);margin:0 0 16px}
+label{display:block;font-weight:600;margin:12px 0 6px}
+input{width:100%;padding:10px 12px;font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+input:focus-visible{outline:2px solid var(--link);outline-offset:1px}
+button{margin-top:16px;width:100%;padding:11px;font:inherit;font-weight:600;background:var(--brand);color:#fff;border:0;border-radius:8px;cursor:pointer}
+@media (prefers-color-scheme:dark){button{color:#0F1419}}
+button:disabled{opacity:.6}
+#msg{margin-top:14px}#msg.err{color:var(--sd-red-t)}
+.back{margin-top:16px;font-size:14px}.back a{color:var(--link)}
+</style></head><body>
+<header class="sbar"><div class="sbar-in"><a class="slogo" href="/"><img class="logo-light" src="/brand/sd-logo-color.svg" alt="Strategic Doing"><img class="logo-dark" src="/brand/sd-logo-white.svg" alt="Strategic Doing"><span class="sep"></span><span class="lbl">ManuFuture workspace</span></a><a class="out" href="#" id="out">Sign out</a></div></header><div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<main><div class="card">
+<h1>Set your password</h1>
+<p id="who">Choose a password for signing in to this workspace. At least 8 characters.</p>
+<form id="f"><label for="p1">New password</label><input id="p1" type="password" autocomplete="new-password" minlength="8" required>
+<label for="p2">Type it again</label><input id="p2" type="password" autocomplete="new-password" minlength="8" required>
+<button id="go" type="submit">Save password</button></form>
+<div id="msg" role="status"></div>
+<p class="back"><a href="/">Go to the workspace</a></p>
+</div></main>
+<script src="/vendor/supabase-js-2.45.4.js"></script>
+<script src="/auth.js"></script>
+<script>
+(async () => {
+  const { sb, setCookie, signOut } = window.WORKSPACE_AUTH;
+  document.getElementById('out').addEventListener('click', (e) => { e.preventDefault(); signOut(); });
+  const msg = document.getElementById('msg');
+  const say = (t, err) => { msg.className = err ? 'err' : ''; msg.textContent = t; };
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { location.replace('/login.html?next=' + encodeURIComponent('/account.html')); return; }
+  setCookie(session);
+  document.getElementById('who').textContent = 'Signed in as ' + session.user.email + '. Choose a password for signing in to this workspace. At least 8 characters.';
+  document.getElementById('f').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const a = document.getElementById('p1').value, b = document.getElementById('p2').value;
+    if (a !== b) { say('The two passwords do not match.', true); return; }
+    const btn = document.getElementById('go'); btn.disabled = true; say('Saving…');
+    const { error } = await sb.auth.updateUser({ password: a });
+    btn.disabled = false;
+    if (error) { say('The password was not saved (' + error.message + ').', true); return; }
+    say('Password saved. Next time, sign in with your email and this password.');
+  });
+})();
+</script></body></html>

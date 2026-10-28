@@ -15,12 +15,16 @@ button{margin-top:14px;width:100%;padding:11px;font:inherit;font-weight:600;back
 @media (prefers-color-scheme:dark){button{color:#0F1419}}
 button:disabled{opacity:.6}
 #msg{margin-top:14px}#msg.err{color:var(--sd-red-t)}
+.alt{margin:16px 0 0;font-size:14px}.alt a{color:var(--link)}
 </style></head><body>
 <header class="sbar"><div class="sbar-in"><a class="slogo" href="/"><img class="logo-light" src="/brand/sd-logo-color.svg" alt="Strategic Doing"><img class="logo-dark" src="/brand/sd-logo-white.svg" alt="Strategic Doing"><span class="sep"></span><span class="lbl">ManuFuture workspace</span></a></div></header><div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <main><div class="card">
 <h1>Sign in</h1>
-<p>This workspace is private. Enter your email address and we will send you a sign-in link. Only invited addresses can sign in.</p>
-<form id="f"><label for="em">Email address</label><input id="em" type="email" autocomplete="email" required><button id="go" type="submit">Email me a sign-in link</button></form>
+<p>This workspace is private. Only invited addresses can sign in.</p>
+<form id="pw"><label for="em">Email address</label><input id="em" type="email" autocomplete="username" required>
+<label for="pass" style="margin-top:12px">Password</label><input id="pass" type="password" autocomplete="current-password" required>
+<button id="go" type="submit">Sign in</button></form>
+<p class="alt">No password yet, or forgot it? <a href="#" id="linkbtn">Email me a sign-in link</a> instead, then set a password once you are in.</p>
 <div id="msg" role="status"></div>
 </div></main>
 <script src="/vendor/supabase-js-2.45.4.js"></script>
@@ -32,18 +36,27 @@ button:disabled{opacity:.6}
   let next = params.get('next') || '/';
   if (!next.startsWith('/') || next.startsWith('//')) next = '/';
   const msg = document.getElementById('msg');
+  const say = (text, err) => { msg.className = err ? 'err' : ''; msg.textContent = text; };
   const hash = new URLSearchParams(location.hash.slice(1));
-  if (hash.get('error_description')) { msg.className = 'err'; msg.textContent = 'That sign-in link did not work: ' + hash.get('error_description') + '. Request a new one below.'; }
+  if (hash.get('error_description')) say('That sign-in link did not work: ' + hash.get('error_description') + '. Sign in with your password, or request a new link.', true);
   const { data: { session } } = await sb.auth.getSession();
   if (session) { setCookie(session); location.replace(next); return; }
-  document.getElementById('f').addEventListener('submit', async (e) => {
+  const email = () => document.getElementById('em').value.trim().toLowerCase();
+  document.getElementById('pw').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = document.getElementById('go'); btn.disabled = true; msg.className = ''; msg.textContent = 'Sending…';
-    const email = document.getElementById('em').value.trim().toLowerCase();
-    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + '/login.html?next=' + encodeURIComponent(next) } });
+    const btn = document.getElementById('go'); btn.disabled = true; say('Signing in…');
+    const { data, error } = await sb.auth.signInWithPassword({ email: email(), password: document.getElementById('pass').value });
     btn.disabled = false;
-    if (error && !/signups not allowed|not found/i.test(error.message)) { msg.className = 'err'; msg.textContent = 'The link could not be sent (' + error.message + '). Try again in a minute.'; return; }
-    msg.textContent = 'If ' + email + ' has access, a sign-in link is on its way. Open it in this browser.';
+    if (error) { say(/invalid/i.test(error.message) ? 'That email and password do not match. If you have not set a password yet, use the email link below.' : 'Sign-in failed (' + error.message + ').', true); return; }
+    setCookie(data.session); location.replace(next);
+  });
+  document.getElementById('linkbtn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (!email()) { say('Enter your email address first.', true); document.getElementById('em').focus(); return; }
+    say('Sending…');
+    const { error } = await sb.auth.signInWithOtp({ email: email(), options: { shouldCreateUser: false, emailRedirectTo: location.origin + '/login.html?next=' + encodeURIComponent('/account.html') } });
+    if (error && !/signups not allowed|not found/i.test(error.message)) { say('The link could not be sent (' + error.message + '). Sign-in emails are limited to a few an hour; try again later.', true); return; }
+    say('If ' + email() + ' has access, a sign-in link is on its way. Open it in this browser. It takes you to a page where you can set a password.');
   });
 })();
 </script></body></html>
