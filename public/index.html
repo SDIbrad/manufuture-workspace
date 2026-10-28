@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ManuFuture Workspace</title>
+<script src="/vendor/supabase-js-2.45.4.js"></script><script src="/auth.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"><link rel="stylesheet" href="/brand/sd.css">
+<style>
+h1{font-family:var(--display);font-weight:800;color:var(--brand);font-size:30px;line-height:1.2;margin:36px 0 8px;text-wrap:balance}
+.lede{color:var(--muted);max-width:680px;margin:0 0 28px}
+h2.group{font-family:var(--display);font-weight:700;color:var(--ink);font-size:20px;margin:8px 0 14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:40px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--line)}
+.tile.live::before{background:var(--sd-teal)}
+.tile.live{border-color:color-mix(in srgb,var(--sd-teal) 45%,var(--line))}
+.when{font-family:var(--mono);font-size:12.5px;color:var(--sd-teal-t)}
+.tile h2{font-family:var(--display);font-weight:700;color:var(--brand);font-size:19px;line-height:1.3;margin:6px 0 8px}
+.tile p{margin:0 0 14px;color:var(--muted);font-size:15px}
+.go{margin-top:auto;align-self:flex-start;font-weight:600;font-size:14px;text-decoration:none;color:#fff;background:var(--brand);padding:8px 14px;border-radius:8px}
+:root[data-theme="dark"] .go{color:#0F1419}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .go{color:#0F1419}}
+.none{margin-top:auto;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:16px 0 32px;font-size:13px;color:var(--muted)}
+</style></head><body>
+<header class="sbar"><div class="sbar-in"><a class="slogo" href="/"><img class="logo-light" src="/brand/sd-logo-color.svg" alt="Strategic Doing"><img class="logo-dark" src="/brand/sd-logo-white.svg" alt="Strategic Doing"><span class="sep"></span><span class="lbl">ManuFuture workspace</span></a><a class="out" href="#" onclick="WORKSPACE_AUTH.signOut();return false">Sign out</a></div></header><div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<main class="wrap">
+<h1>ManuFuture work</h1>
+<p class="lede">The Strategic Doing Institute's ManuFuture work in Northeast Ohio and at Purdue. Each tile below is one initiative. Where a workspace exists, the tile links to it.</p>
+<h2 class="group">ManuFuture NEO, Northeast Ohio</h2>
+<div class="tiles">
+<article class="tile live"><div class="when">1 May to 28 October 2026</div><h2>ManuFuture NEO workstream sessions</h2><p>Every workstream session and monthly gathering in the period, with who attended, on a timeline: 47 sessions and 56 people. Filter by workstream or by person.</p><a class="go" href="/neo-sessions/">Open the workspace →</a></article>
+<article class="tile"><div class="when">Northeast Ohio · ongoing</div><h2>Core team and monthly community gathering</h2><p>Planning and follow-up for the monthly community gathering, where the workstreams report, and the weekly core team calls with Manufacturing Works. The next in-person gathering is 4 November 2026 at Cleveland State.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Northeast Ohio · Tuesday calls</div><h2>Culture and Learning workstream</h2><p>The Workforce Collaborative, working on what it would take for manufacturing to develop, attract and retain talent better than any other industry. In 2026: the food manufacturers workshop (March), 77 job-seeker interviews at the Success Fair (August), the Akron polymer roundtable (September) and the Resources of the Commons session at Cleveland State (October).</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Northeast Ohio</div><h2>Operational Effectiveness workstream</h2><p>Capability tours, where members visit one another's facilities to see how they work, and roadmapping with manufacturers. The Ignition Peer Group grew out of one of the tours.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Northeast Ohio · monthly calls</div><h2>Ignition Peer Group</h2><p>Engineers and managers working with shop-floor machine monitoring on the Ignition platform, convened at Cleveland State's Advanced Manufacturing Center. The first hot seat session was 16 October 2026.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Northeast Ohio · Friday calls</div><h2>Strategy and Growth workstream</h2><p>The Growth Team, a peer group of manufacturing company leaders. A member brings a real business challenge to a hot seat session and leaves with an action plan. The Technology House held its session on 14 October 2026.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Northeast Ohio</div><h2>Smart manufacturing roadmap program</h2><p>A roadmap program run by Manufacturing Works, Lorain County Community College and CESMII, the national smart manufacturing institute, for a cohort of about 13 Northeast Ohio manufacturers.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Cleveland · July to October 2026</div><h2>MX.0 community challenge</h2><p>A community challenge workshop in Cleveland, planned from July 2026. The roadmapping workshop ran on 1 October 2026.</p><span class="none">No workspace yet</span></article>
+</div>
+<h2 class="group">Purdue ManuFuture</h2>
+<div class="tiles">
+<article class="tile"><div class="when">Purdue</div><h2>Purdue ManuFuture consortium</h2><p>The consortium of manufacturers, Purdue researchers and partners that grew out of ManuFuture's NSF-funded research. The kickoff was 28 and 29 September 2026; the next event is planned for 22 and 23 March 2027.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Purdue</div><h2>GE Vernova partnership</h2><p>Purdue ManuFuture's work with GE Vernova, including the Vistra Innovation Experience in September 2026.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Purdue · Lafayette</div><h2>Rea Magnet Wire research</h2><p>Sponsored research on Rea Magnet Wire's enameling ovens: a model of oven airflow and temperature, with computational fluid dynamics work at Purdue Northwest.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">December 2025</div><h2>December 2025 workshop follow-up</h2><p>Follow-up plans for the 26 attendees of the December 2025 ManuFuture workshop, and a theme analysis across seven ManuFuture workshops: 94 prompts and 1,161 responses.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">Purdue</div><h2>Communicating ManuFuture with Purdue colleagues</h2><p>Faculty profiles, newsletters and outreach materials for Purdue colleagues.</p><span class="none">No workspace yet</span></article>
+<article class="tile"><div class="when">History</div><h2>ManuFuture history</h2><p>A written history and timeline of ManuFuture and of ManuFuture NEO.</p><span class="none">No workspace yet</span></article>
+</div>
+</main>
+<footer><div class="wrap">Confidential. Shared with the ManuFuture core team. Workspace pages name the people who attended sessions.</div></footer>
+</body></html>

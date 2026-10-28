@@ -1,0 +1,22 @@
+/* Strategic Doing colors in the Synapse workspace design (tokens from the Synapse Knowledge Harness). */
+:root{--bg:#F5F7FB;--surface:#FFFFFF;--ink:#1A1F2E;--muted:#5A6275;--line:#E2E6EF;--brand:#0D3B3E;--link:#1A6B6F;--tint:#E9F3F2;
+ --sd-teal:#1FBCBC;--sd-green:#91C03E;--sd-red:#F1583E;--sd-orange:#F9A020;--sd-teal-t:#007471;--sd-green-t:#567D39;--sd-red-t:#983228;--sd-orange-t:#AD6327;
+ --display:Sora,"Segoe UI",system-ui,sans-serif;--body:"DM Sans","Segoe UI",system-ui,sans-serif;--mono:"DM Mono",ui-monospace,Menlo,monospace;--r:12px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1419;--surface:#171E25;--ink:#E6EAF0;--muted:#98A2B3;--line:#2A333D;--brand:#7FD1CB;--link:#6CC3BD;--tint:#16302F;
+ --sd-teal-t:#5FD4D2;--sd-green-t:#A9D46A;--sd-red-t:#FF8F7A;--sd-orange-t:#FBBA5C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1419;--surface:#171E25;--ink:#E6EAF0;--muted:#98A2B3;--line:#2A333D;--brand:#7FD1CB;--link:#6CC3BD;--tint:#16302F;
+ --sd-teal-t:#5FD4D2;--sd-green-t:#A9D46A;--sd-red-t:#FF8F7A;--sd-orange-t:#FBBA5C;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+.sbar{background:var(--surface);border-bottom:1px solid var(--line)}
+.sbar-in{max-width:1040px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.slogo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--brand);font-family:var(--display);font-weight:700;font-size:16px}
+.slogo img{height:30px;width:auto;display:block}
+.slogo .sep{width:1px;height:24px;background:var(--line)}
+.logo-dark{display:none!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-light{display:none!important}:root:not([data-theme="light"]) .logo-dark{display:block!important}}
+.sbar a.out{font-size:14px;color:var(--link)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+.stripe{height:4px;display:grid;grid-template-columns:repeat(4,1fr)}
+.stripe i:nth-child(1){background:var(--sd-teal)}.stripe i:nth-child(2){background:var(--sd-green)}.stripe i:nth-child(3){background:var(--sd-orange)}.stripe i:nth-child(4){background:var(--sd-red)}
+@media (max-width:520px){.slogo img{height:24px}.slogo .lbl{display:none}.slogo .sep{display:none}}

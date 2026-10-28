@@ -1,0 +1,14 @@
+[build]
+  publish = "public"
+
+[build.environment]
+  # The Supabase address and publishable key must appear in the page for sign-in to work.
+  # Neither is a secret, so Netlify's secrets scan skips them.
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL,SUPABASE_PUBLIC_KEY,ALLOWED_EMAILS"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "same-origin"
