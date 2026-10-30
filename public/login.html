@@ -1,62 +1,13 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Sign in · ManuFuture workspace</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"><link rel="stylesheet" href="/brand/sd.css">
-<style>
-main{max-width:440px;margin:48px auto;padding:0 16px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px}
-h1{font-family:var(--display);font-weight:800;color:var(--brand);font-size:26px;margin:0 0 8px}
-p{color:var(--muted);margin:0 0 16px}
-label{display:block;font-weight:600;margin-bottom:6px}
-input{width:100%;padding:10px 12px;font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
-input:focus-visible{outline:2px solid var(--link);outline-offset:1px}
-button{margin-top:14px;width:100%;padding:11px;font:inherit;font-weight:600;background:var(--brand);color:#fff;border:0;border-radius:8px;cursor:pointer}
-@media (prefers-color-scheme:dark){button{color:#0F1419}}
-button:disabled{opacity:.6}
-#msg{margin-top:14px}#msg.err{color:var(--sd-red-t)}
-.alt{margin:16px 0 0;font-size:14px}.alt a{color:var(--link)}
-</style></head><body>
-<header class="sbar"><div class="sbar-in"><a class="slogo" href="/"><img class="logo-light" src="/brand/sd-logo-color.svg" alt="Strategic Doing"><img class="logo-dark" src="/brand/sd-logo-white.svg" alt="Strategic Doing"><span class="sep"></span><span class="lbl">ManuFuture workspace</span></a></div></header><div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-<main><div class="card">
-<h1>Sign in</h1>
-<p>This workspace is private. Only invited addresses can sign in.</p>
-<form id="pw"><label for="em">Email address</label><input id="em" type="email" autocomplete="username" required>
-<label for="pass" style="margin-top:12px">Password</label><input id="pass" type="password" autocomplete="current-password" required>
-<button id="go" type="submit">Sign in</button></form>
-<p class="alt">No password yet, or forgot it? <a href="#" id="linkbtn">Email me a sign-in link</a> instead, then set a password once you are in.</p>
-<div id="msg" role="status"></div>
-</div></main>
-<script src="/vendor/supabase-js-2.45.4.js"></script>
-<script src="/auth.js"></script>
+<title>Sign in</title>
 <script>
-(async () => {
-  const { sb, setCookie } = window.WORKSPACE_AUTH;
-  const params = new URLSearchParams(location.search);
-  let next = params.get('next') || '/';
-  if (!next.startsWith('/') || next.startsWith('//')) next = '/';
-  const msg = document.getElementById('msg');
-  const say = (text, err) => { msg.className = err ? 'err' : ''; msg.textContent = text; };
-  const hash = new URLSearchParams(location.hash.slice(1));
-  if (hash.get('error_description')) say('That sign-in link did not work: ' + hash.get('error_description') + '. Sign in with your password, or request a new link.', true);
-  const { data: { session } } = await sb.auth.getSession();
-  if (session) { setCookie(session); location.replace(next); return; }
-  const email = () => document.getElementById('em').value.trim().toLowerCase();
-  document.getElementById('pw').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('go'); btn.disabled = true; say('Signing in…');
-    const { data, error } = await sb.auth.signInWithPassword({ email: email(), password: document.getElementById('pass').value });
-    btn.disabled = false;
-    if (error) { say(/invalid/i.test(error.message) ? 'That email and password do not match. If you have not set a password yet, use the email link below.' : 'Sign-in failed (' + error.message + ').', true); return; }
-    setCookie(data.session); location.replace(next);
-  });
-  document.getElementById('linkbtn').addEventListener('click', async (e) => {
-    e.preventDefault();
-    if (!email()) { say('Enter your email address first.', true); document.getElementById('em').focus(); return; }
-    say('Sending…');
-    const { error } = await sb.auth.signInWithOtp({ email: email(), options: { shouldCreateUser: false, emailRedirectTo: location.origin + '/login.html?next=' + encodeURIComponent('/account.html') } });
-    if (error && !/signups not allowed|not found/i.test(error.message)) { say('The link could not be sent (' + error.message + '). Sign-in emails are limited to a few an hour; try again later.', true); return; }
-    say('If ' + email() + ' has access, a sign-in link is on its way. Open it in this browser. It takes you to a page where you can set a password.');
-  });
+// One sign-in covers every strategicdoinginitiatives.com site. This page sends people to it.
+(function () {
+  var p = new URLSearchParams(location.search), next = p.get('next') || '/';
+  if (next.charAt(0) !== '/' || next.charAt(1) === '/' || next.charAt(1) === '\\') next = '/';
+  location.replace('https://strategicdoinginitiatives.com/login?next=' + encodeURIComponent(location.origin + next));
 })();
-</script></body></html>
+</script></head>
+<body style="font:16px/1.5 system-ui,sans-serif;margin:48px 16px"><p><a href="https://strategicdoinginitiatives.com/login">Continue to the Strategic Doing sign-in page</a></p></body></html>
